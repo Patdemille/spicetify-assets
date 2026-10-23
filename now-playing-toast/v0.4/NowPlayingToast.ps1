@@ -145,7 +145,7 @@ public static class NptHotkey {
       </Grid.ColumnDefinitions>
       <Border Grid.Column="0" Background="#25262C" CornerRadius="11">
         <Grid>
-          <TextBlock Name="CoverPlaceholder" Text="♪" FontSize="65"
+          <TextBlock Name="CoverPlaceholder" Text="&#x266A;" FontSize="65"
                      Foreground="#D6B77C" HorizontalAlignment="Center"
                      VerticalAlignment="Center"/>
           <Image Name="AlbumCover" Stretch="UniformToFill" Visibility="Collapsed"/>
@@ -200,10 +200,11 @@ $win.Top  = $screen.Bottom - $win.Height - 20
 
 # Clipping explicitly rounds the art itself, not just its container.
 $clip = New-Object System.Windows.Media.RectangleGeometry
-$clip.Rect = New-Object System.Windows.Rect(0, 0, 130, 130)
+$clip.Rect = [System.Windows.Rect]::new(0, 0, 130, 130)
 $clip.RadiusX = 11
 $clip.RadiusY = 11
 $cover.Clip = $clip
+$win.IsHitTestVisible = $false
 
 $script:currentUri = ''
 $script:hasTrack = $false
