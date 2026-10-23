@@ -176,7 +176,7 @@ public static class NptHotkey {
                 Width="34" Height="34" Margin="0,0,42,0" HorizontalAlignment="Right"
                 VerticalAlignment="Top" Cursor="Hand" Focusable="False" IsEnabled="False"
                 Opacity="0.4" Content="+" FontSize="21" FontWeight="SemiBold" Foreground="#F5F5F5"
-                Background="#292D35" BorderBrush="#555D66" ToolTip="Ajouter aux Titres likés">
+                Background="#292D35" BorderBrush="#555D66" ToolTip="Ajouter aux Titres lik&#xE9;s">
           <Button.Template>
             <ControlTemplate TargetType="Button">
               <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
@@ -355,7 +355,7 @@ $script:incoming.Add_Tick({
             $likeButton.Opacity = if ($script:canLike) { 1 } else { 0.4 }
             $likeButton.Content = if ($liked) { [string][char]0x2713 } else { "+" }
             $likeButton.Background = if ($liked) { $script:likeBrushOn } else { $script:likeBrushOff }
-            $likeButton.ToolTip = if (-not $script:canLike) { "Disponible pour les morceaux Spotify uniquement" } elseif ($liked) { "Retirer des Titres likés" } else { "Ajouter aux Titres likés" }
+            $likeButton.ToolTip = if (-not $script:canLike) { "Disponible pour les morceaux Spotify uniquement" } elseif ($liked) { "Retirer des Titres likes" } else { "Ajouter aux Titres likes" }
             $artist.Text = [string]$item.artist
             $album.Text = [string]$item.album
             $date = if ($item.year -match '^\d{4}$') { [string]$item.year } else { '--' }
