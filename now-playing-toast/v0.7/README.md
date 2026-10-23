@@ -1,6 +1,6 @@
 # Now Playing Toast v0.7 — bouton « Titres likés »
 
-**Statut : préversion de test — NON installée sur Main / Laptop.** La V0.6 reste la version fonctionnelle de référence.
+**Statut au 23/10/2026 : validée fonctionnellement sur Main** (bouton +, coche verte, ajout aux Titres likés et commande Suivant confirmés). **La copie définitive du compagnon est en cours d'installation sur Main. Laptop reste en V0.6.** La V0.6 reste disponible pour restauration.
 
 ## Fonctionnement proposé
 
