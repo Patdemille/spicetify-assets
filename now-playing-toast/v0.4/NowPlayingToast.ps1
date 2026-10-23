@@ -213,6 +213,7 @@ $script:durationMs = 0.0
 $script:progressMs = 0.0
 $script:lastSample = [DateTime]::UtcNow
 $script:coverUrl = ''
+$script:lastMessageAt = [DateTime]::MinValue
 
 $script:hideTimer = New-Object System.Windows.Threading.DispatcherTimer
 $script:hideTimer.Interval = [TimeSpan]::FromSeconds(5)
@@ -222,7 +223,7 @@ $script:hideTimer.Add_Tick({
     $win.IsHitTestVisible = $false
 })
 $script:showToast = {
-    if (-not $script:hasTrack) { return }
+    if (-not $script:hasTrack -or ([DateTime]::UtcNow - $script:lastMessageAt).TotalSeconds -gt 20) { return }
     $script:hideTimer.Stop()
     $win.Opacity = 1
     $win.IsHitTestVisible = $false
@@ -255,6 +256,7 @@ $script:incoming.Add_Tick({
             $changed = $script:currentUri -ne [string]$item.uri
             $script:currentUri = [string]$item.uri
             $script:hasTrack = $true
+            $script:lastMessageAt = [DateTime]::UtcNow
             $title.Text = [string]$item.title
             $artist.Text = [string]$item.artist
             $album.Text = [string]$item.album
