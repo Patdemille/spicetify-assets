@@ -349,7 +349,13 @@ $script:incoming.Add_Tick({
             $script:hasTrack = $true
             $script:lastMessageAt = [DateTime]::UtcNow
             $title.Text = [string]$item.title
-            $script:canLike = ($item.likable -eq $true) -and ([string]$item.uri -match '^spotify:track:[A-Za-z0-9]{22}
+            $script:canLike = ($item.likable -eq $true) -and ([string]$item.uri -match '^spotify:track:[A-Za-z0-9]{22}$')
+            $liked = $item.liked -eq $true
+            $likeButton.IsEnabled = $script:canLike
+            $likeButton.Opacity = if ($script:canLike) { 1 } else { 0.4 }
+            $likeButton.Content = if ($liked) { [string][char]0x2713 } else { "+" }
+            $likeButton.Background = if ($liked) { $script:likeBrushOn } else { $script:likeBrushOff }
+            $likeButton.ToolTip = if (-not $script:canLike) { "Disponible pour les morceaux Spotify uniquement" } elseif ($liked) { "Retirer des Titres likés" } else { "Ajouter aux Titres likés" }
             $artist.Text = [string]$item.artist
             $album.Text = [string]$item.album
             $date = if ($item.year -match '^\d{4}$') { [string]$item.year } else { '--' }
@@ -484,145 +490,6 @@ $win.Add_Closed({
     $script:bridge.Dispose()
 })
 Write-Host 'Now Playing Toast v0.7 : Suivant + Titres likes, position memorisee' -ForegroundColor Green
-Write-Host 'Demarrer Spotify avec l extension now-playing-toast.js active.'
-Write-Host 'Le compagnon ne s affiche que lorsqu il recoit un morceau. Fermer PowerShell pour arreter.'
-$app = New-Object System.Windows.Application
-$app.ShutdownMode = [System.Windows.ShutdownMode]::OnMainWindowClose
-[void]$app.Run($win)
-)
-            $liked = $item.liked -eq $true
-            $likeButton.IsEnabled = $script:canLike
-            $likeButton.Opacity = if ($script:canLike) { 1 } else { 0.4 }
-            $likeButton.Content = if ($liked) { [string][char]0x2713 } else { "+" }
-            $likeButton.Background = if ($liked) { $script:likeBrushOn } else { $script:likeBrushOff }
-            $likeButton.ToolTip = if (-not $script:canLike) { "Disponible pour les morceaux Spotify uniquement" } elseif ($liked) { "Retirer des Titres likés" } else { "Ajouter aux Titres likés" }
-            $artist.Text = [string]$item.artist
-            $album.Text = [string]$item.album
-            $date = if ($item.year -match '^\d{4}$') { [string]$item.year } else { '--' }
-            $mins = if ([double]$item.durationMs -gt 0) {
-                [TimeSpan]::FromMilliseconds([double]$item.durationMs).ToString('m\:ss')
-            } else { '--:--' }
-            $meta.Text = "$date     |     $mins"
-            $script:durationMs = [Math]::Max(0, [double]$item.durationMs)
-            $script:progressMs = [Math]::Max(0, [double]$item.progressMs)
-            $script:lastSample = [DateTime]::UtcNow
-            $script:playing = $item.playing -eq $true
-            if ($script:coverUrl -ne [string]$item.coverUrl) {
-                $script:coverUrl = [string]$item.coverUrl
-                $cover.Visibility = "Collapsed"
-                $placeholder.Visibility = "Visible"
-                if ($script:coverUrl -match '^https://') {
-                    try {
-                        $img = New-Object System.Windows.Media.Imaging.BitmapImage
-                        $img.BeginInit()
-                        $img.UriSource = New-Object System.Uri($script:coverUrl)
-                        $img.CacheOption = [System.Windows.Media.Imaging.BitmapCacheOption]::OnDemand
-                        $img.EndInit()
-                        $cover.Source = $img
-                        $cover.Visibility = "Visible"
-                        $placeholder.Visibility = "Collapsed"
-                    } catch { }
-                }
-            }
-            if ($changed -or [string]$item.action -eq 'show') { & $script:showToast }
-        } catch {
-            Write-Warning "Metadata ignoree : $($_.Exception.Message)"
-        }
-    }
-})
-
-$script:hotkeyId = 47511
-$script:source = $null
-$script:hotkeyOK = $false
-$script:hwnd = [IntPtr]::Zero
-$script:hook = [System.Windows.Interop.HwndSourceHook] {
-    param($hwnd, $message, $wparam, $lparam, [ref]$handled)
-    if ($message -eq 0x0021) {
-        # MA_NOACTIVATE (3): permit mouse messages without stealing app focus.
-        $handled.Value = $true
-        return [IntPtr]3
-    }
-    if ($message -eq 0x0312 -and $wparam.ToInt32() -eq $script:hotkeyId) {
-        & $script:showToast
-        $handled.Value = $true
-    }
-    return [IntPtr]::Zero
-}
-
-
-# The UI queues only "next"; Spotify's JS extension executes the action.
-$nextButton.Add_Click({
-    if (-not $script:hasTrack) { return }
-    $script:bridge.Controls.Enqueue("next")
-    $script:hideTimer.Stop()
-    $script:hideTimer.Start()
-})
-# Drag anywhere except the control button.
-$win.Add_MouseLeftButtonDown({
-    if ($win.Opacity -le 0.15 -or -not $script:hasTrack -or $nextButton.IsMouseOver) { return }
-    $script:hideTimer.Stop()
-    $script:dragging = $true
-    $win.BeginAnimation([System.Windows.Window]::OpacityProperty, $null)
-    $win.Opacity = 1
-    try {
-        $win.DragMove()
-    } catch {
-        Write-Warning "Deplacement non disponible : $($_.Exception.Message)"
-    } finally {
-        $script:dragging = $false
-        try {
-            $position = @{ left = [Math]::Round($win.Left, 2); top = [Math]::Round($win.Top, 2) }
-            $folder = Split-Path -Parent $script:settingsFile
-            if (-not (Test-Path -LiteralPath $folder)) {
-                New-Item -ItemType Directory -Path $folder -Force | Out-Null
-            }
-            $json = $position | ConvertTo-Json -Compress
-            [IO.File]::WriteAllText($script:settingsFile, $json, [Text.UTF8Encoding]::new($false))
-        } catch {
-            Write-Warning "Enregistrement de position impossible : $($_.Exception.Message)"
-        }
-        $script:hideTimer.Stop()
-        $script:hideTimer.Start()
-    }
-})
-
-# Keep notification visible while hovered to allow grabbing it comfortably.
-$win.Add_MouseEnter({
-    if ($win.Opacity -gt 0.15) { $script:hideTimer.Stop() }
-})
-$win.Add_MouseLeave({
-    if (-not $script:dragging -and $win.Opacity -gt 0.15) {
-        $script:hideTimer.Stop()
-        $script:hideTimer.Start()
-    }
-})
-
-$win.Add_SourceInitialized({
-    $helper = New-Object System.Windows.Interop.WindowInteropHelper($win)
-    $script:hwnd = $helper.Handle
-    $script:source = [System.Windows.Interop.HwndSource]::FromHwnd($script:hwnd)
-    $script:source.AddHook($script:hook)
-    $script:hotkeyOK = [NptHotkey]::RegisterHotKey($script:hwnd, $script:hotkeyId, 0x4006, 0x57)
-    Write-Host "Raccourci Ctrl+Maj+W enregistre : $script:hotkeyOK" -ForegroundColor Cyan
-    if (-not $script:hotkeyOK) {
-        Write-Warning "Ctrl+Maj+W reserve. Fermer les autres programmes utilisant ce raccourci."
-    }
-})
-$win.Add_Loaded({
-    $script:pulse.Start()
-    $script:incoming.Start()
-})
-$win.Add_Closed({
-    $script:hideTimer.Stop()
-    $script:pulse.Stop()
-    $script:incoming.Stop()
-    if ($script:hotkeyOK) {
-        [void][NptHotkey]::UnregisterHotKey($script:hwnd, $script:hotkeyId)
-    }
-    if ($script:source) { $script:source.RemoveHook($script:hook) }
-    $script:bridge.Dispose()
-})
-Write-Host 'Now Playing Toast v0.6 : bouton suivant et position memorisee' -ForegroundColor Green
 Write-Host 'Demarrer Spotify avec l extension now-playing-toast.js active.'
 Write-Host 'Le compagnon ne s affiche que lorsqu il recoit un morceau. Fermer PowerShell pour arreter.'
 $app = New-Object System.Windows.Application
