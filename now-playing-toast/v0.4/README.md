@@ -1,6 +1,6 @@
 # Now Playing Toast — V0.4, Spotify bridge (prototype)
 
-**Objectif :** une petite notification Windows 11 en bas à droite, avec pochette légèrement arrondie, titre, artiste, album, année si disponible, durée, progression, puis disparition après **7 secondes**, avec fondu d'apparition de **300 ms** et fondu de disparition de **450 ms**.. Rappel à la demande par **Ctrl + Maj + W**.
+**Objectif :** une petite notification Windows 11 en bas à droite, avec pochette légèrement arrondie, titre, artiste, album, année si disponible, durée, progression, puis disparition après **7 secondes**, avec fondu d'apparition de **300 ms** et fondu de disparition de **450 ms**. Rappel à la demande par **Ctrl + Maj + W**.
 
 La version V0.4 utilise deux composants :
 - `NowPlayingToast.ps1` : compagnon local Windows (WPF, PowerShell 5.1, port **127.0.0.1:43827**, sans droits admin).
