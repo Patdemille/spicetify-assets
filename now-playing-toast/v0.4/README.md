@@ -71,3 +71,44 @@ Si le raccourci est déjà enregistré par l'ancienne démo, il faut d'abord fer
 - Accent de couleur basé sur la pochette, anim de transition, démarrage automatique, raccourci configurable, multi-écran : envisagés pour une version ultérieure.
 
 Le serveur HTTP est lié **uniquement à l'interface de bouclage**. Les requêtes avec un `Origin` web non Spotify sont rejetées ; il n'est pas exposé sur le réseau local.
+
+
+## Installation persistante sans console au démarrage Windows
+
+Une fois le compagnon et l'extension testés sur Main, on peut laisser le compagnon
+fonctionner en arrière-plan sans fenêtre PowerShell visible, **sans droits admin**.
+
+Exécuter en PowerShell normal :
+
+```powershell
+$dir = Join-Path $env:LOCALAPPDATA 'NowPlayingToast'
+Invoke-WebRequest 'https://raw.githubusercontent.com/Patdemille/spicetify-assets/main/now-playing-toast/v0.4/Install-AutoStart.ps1' -OutFile (Join-Path $dir 'Install-AutoStart.ps1')
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File (Join-Path $dir 'Install-AutoStart.ps1')
+```
+
+Cela crée **uniquement** le raccourci :
+`%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\Now Playing Toast.lnk`
+
+Le raccourci démarre le compagnon avec `-WindowStyle Hidden` à **chaque ouverture de session Windows**.
+Il ne déclenche pas le lancement lors de son installation : l'instance V0.4 déjà ouverte
+reste donc inchangée jusqu'à la prochaine connexion.
+
+Pour vérifier après une nouvelle connexion Windows :
+```powershell
+Invoke-RestMethod "http://127.0.0.1:43827/health" -TimeoutSec 5
+```
+Réponse attendue : `Now Playing Toast OK`. Le compagnon doit continuer à
+tourner pour afficher des pop-ups hors de Spotify.
+
+Pour **désactiver l'auto-démarrage** sans rien désinstaller :
+```powershell
+$dir = Join-Path $env:LOCALAPPDATA 'NowPlayingToast'
+Invoke-WebRequest 'https://raw.githubusercontent.com/Patdemille/spicetify-assets/main/now-playing-toast/v0.4/Disable-AutoStart.ps1' -OutFile (Join-Path $dir 'Disable-AutoStart.ps1')
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File (Join-Path $dir 'Disable-AutoStart.ps1')
+```
+
+Aucun service, tâche planifiée ou entrée de registre ne sont créés. Le lancement
+est lié à la session utilisateur ; il est donc incompatible avec les notifications
+lorsqu'aucune session Windows n'est ouverte. Pour l'instant, c'est un prototype
+PowerShell : la version « application installée avec icône dans la zone de
+notification » viendra ultérieurement.
