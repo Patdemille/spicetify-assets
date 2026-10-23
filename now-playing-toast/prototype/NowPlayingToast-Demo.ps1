@@ -1,4 +1,4 @@
-# Now Playing Toast - V0.2 DEMO
+# Now Playing Toast - V0.3 DEMO
 # Windows PowerShell 5.1, interface WPF; ne modifie pas Spotify/Spicetify/SpotX.
 # Lancer en mode NON administrateur : powershell.exe -NoProfile -STA -ExecutionPolicy Bypass -File .\NowPlayingToast-Demo.ps1
 $ErrorActionPreference = 'Stop'
@@ -48,15 +48,15 @@ public static class NptHotkey {
           <RowDefinition Height="22"/>
           <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Text="●  NOW PLAYING  ·  DÉMO" Foreground="#D6B77C"
+        <TextBlock Grid.Row="0" Text="●  NOW PLAYING  ·  DEMO" Foreground="#D6B77C"
                    FontSize="10" FontWeight="SemiBold"/>
         <TextBlock Grid.Row="1" Text="Get Lucky" Foreground="#FFFFFF"
                    FontSize="19" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
-        <TextBlock Grid.Row="2" Text="Daft Punk · Pharrell Williams" Foreground="#E2E5E9"
+        <TextBlock Grid.Row="2" Text="Daft Punk / Pharrell Williams" Foreground="#E2E5E9"
                    FontSize="12" TextTrimming="CharacterEllipsis"/>
         <TextBlock Grid.Row="3" Text="Random Access Memories" Foreground="#B8BFC6"
                    FontSize="12" TextTrimming="CharacterEllipsis"/>
-        <TextBlock Grid.Row="4" Text="2013     •     6:09" Foreground="#DDDFE2" FontSize="12"/>
+        <TextBlock Grid.Row="4" Text="2013     |     6:09" Foreground="#DDDFE2" FontSize="12"/>
         <Grid Grid.Row="5" Height="4" VerticalAlignment="Bottom">
           <Border Background="#393D44" CornerRadius="2"/>
           <Border Background="#D6B77C" CornerRadius="2"
@@ -78,11 +78,14 @@ $script:timer = New-Object System.Windows.Threading.DispatcherTimer
 $script:timer.Interval = [TimeSpan]::FromSeconds(5)
 $script:timer.Add_Tick({
     $script:timer.Stop()
-    $window.Hide()
+    # Garder la fenetre et son HWND actifs pour conserver le raccourci global.
+    $window.Opacity = 0
+    $window.IsHitTestVisible = $false
 })
 $script:showToast = {
     $script:timer.Stop()
-    $window.Show()
+    $window.Opacity = 1
+    $window.IsHitTestVisible = $true
     $window.Topmost = $true
     $script:timer.Start()
 }
@@ -106,9 +109,10 @@ $window.Add_SourceInitialized({
     $script:hwnd = $helper.Handle
     $script:source = [System.Windows.Interop.HwndSource]::FromHwnd($script:hwnd)
     $script:source.AddHook($script:hook)
-    $script:hotkeyOK = [NptHotkey]::RegisterHotKey($script:hwnd, $script:hotkeyId, 0x4003, 0xBE)
+    $script:hotkeyOK = [NptHotkey]::RegisterHotKey($script:hwnd, $script:hotkeyId, 0x0006, 0x57)
+    Write-Host "Raccourci enregistre : $script:hotkeyOK" -ForegroundColor Cyan
     if (-not $script:hotkeyOK) {
-        Write-Warning 'Raccourci Ctrl+Alt+. indisponible (déjà réservé ou refusé).'
+        Write-Warning 'Raccourci Ctrl+Maj+W indisponible : raccourci reserve par une autre application (Win32=$([Runtime.InteropServices.Marshal]::GetLastWin32Error())).'
     }
 })
 $window.Add_Loaded({
@@ -123,8 +127,8 @@ $window.Add_Closed({
         $script:source.RemoveHook($script:hook)
     }
 })
-Write-Host 'Now Playing Toast DEMO : affichage 5 secondes; Ctrl+Alt+. pour réafficher.' -ForegroundColor Green
-Write-Host 'Laisser cette console PowerShell ouverte pendant le test. Ctrl+C pour arrêter.'
+Write-Host 'Now Playing Toast DEMO V0.3 : affichage 5 secondes; Ctrl+Maj+W pour reafficher.' -ForegroundColor Green
+Write-Host 'Garder cette session PowerShell ouverte pendant le test. Fermer la session pour arreter.'
 $app = New-Object System.Windows.Application
 $app.ShutdownMode = [System.Windows.ShutdownMode]::OnMainWindowClose
 [void]$app.Run($window)
