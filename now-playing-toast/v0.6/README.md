@@ -1,6 +1,6 @@
-# Now Playing Toast v0.6 — Skip / morceau suivant (préversion)
+# Now Playing Toast v0.6 — Skip / morceau suivant
 
-> **Expérimental : source publiée mais PAS encore testée sur Main ou Laptop.** Conserver la v0.5, actuellement fonctionnelle, tant que cette version n'est pas validée.
+> **Statut au 23/10/2026 : validée sur Main** (bouton Suivant opérationnel, fonctionnement de la notification et démarrage du compagnon vérifiés). **Laptop pas encore mis à jour vers v0.6.** La V0.5 reste disponible pour revenir en arrière. Publication Marketplace et audit de sécurité non réalisés.
 
 ## Fonctionnement
 
@@ -13,6 +13,39 @@
 - Le compagnon écoute seulement `127.0.0.1`. Pas de commande arbitraire depuis HTTP : seule une valeur précisément égale à `next` provoque une action côté Spicetify.
 
 API : https://spicetify.app/docs/development/api-wrapper/methods/player
+
+## Mettre à jour une installation existante V0.5 sur Laptop
+
+L'ordinateur portable possède déjà une installation opérationnelle. Il est inutile de réinstaller Spicetify ou de reconfigurer le raccourci Windows.
+
+1. Fermer **complètement Spotify**, y compris dans la zone de notification.
+2. Ouvrir **Windows PowerShell en utilisateur normal**, puis télécharger le script de mise à jour :
+
+```powershell
+$dir = "$env:LOCALAPPDATA\NowPlayingToast"
+Invoke-WebRequest "https://raw.githubusercontent.com/Patdemille/spicetify-assets/main/now-playing-toast/v0.6/Update-Existing-Installation.ps1" -OutFile "$dir\Update-Existing-Installation.ps1"
+notepad "$dir\Update-Existing-Installation.ps1"
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$dir\Update-Existing-Installation.ps1"
+```
+
+Le script sauvegarde les **deux** composants V0.5 dans un dossier horodaté, récupère les sources V0.6, vérifie les en-têtes et la taille des téléchargements, copie les fichiers, puis exécute `spicetify apply`. Il ne touche pas à Spotify/SpotX, Cat-Jam ou Marketplace et conserve le raccourci Windows existant.
+
+3. **Redémarrer Windows** et ouvrir la session. Le raccourci existant lancera alors le compagnon V0.6 sans fenêtre. Le redémarrage est nécessaire car le compagnon V0.5 déjà chargé en mémoire ne se remplace pas à chaud.
+4. Lancer Spotify et vérifier : bouton **Suivant**, `Ctrl+Maj+W`, déplacement de la fenêtre, année/pochette et disparition automatique.
+
+Vérification réseau si nécessaire :
+
+```powershell
+Invoke-RestMethod 'http://127.0.0.1:43827/health' -TimeoutSec 5
+```
+
+Réponse attendue : `Now Playing Toast OK`.
+
+**Retour arrière :** dans le dossier de sauvegarde indiqué par le script, remettre les anciennes copies de `NowPlayingToast.ps1` et `now-playing-toast.js` à leurs emplacements d'origine, fermer Spotify, appliquer Spicetify, puis redémarrer Windows. Le raccourci ne nécessite pas de modification.
+
+## Historique du premier test sur Main
+
+La V0.6 a d'abord été testée sous des noms de fichiers de prévisualisation, sans modifier le compagnon V0.5 actif, puis installée à la place de V0.5. Le bouton a été vérifié fonctionnel, y compris son déclenchement du passage au morceau suivant. La copie seule du compagnon ne démarrait pas le processus ; la relance du raccourci Windows a résolu ce point.
 
 ## Préparation du test (sans toucher à v0.5)
 
@@ -41,7 +74,7 @@ Cette étape ne touche pas à Spotify, ni à l'extension active, ni au raccourci
 
 **Ne pas modifier** le raccourci de démarrage Windows, qui pointe toujours vers la v0.5. Après le test, on peut arrêter la préversion, restaurer la JS v0.5, appliquer Spicetify et relancer le raccourci existant.
 
-## Points à vérifier avant publication
+## Points à vérifier avant publication Marketplace
 
 - Bouton et clic sous Windows 11 avec `ShowActivated=False` et `WM_MOUSEACTIVATE`.
 - Performances du polling à 700 ms, gestion des coupures entre Spotify et le compagnon.
