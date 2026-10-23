@@ -1,4 +1,4 @@
-# Now Playing Toast v0.4 - local Windows companion (prototype)
+# Now Playing Toast v0.4.1 - local Windows companion (prototype)
 # Windows PowerShell 5.1 / WPF, non-admin, no modification of Spotify or SpotX.
 # All local communication is bound to 127.0.0.1 only. No external service.
 $ErrorActionPreference = 'Stop'
@@ -215,19 +215,45 @@ $script:lastSample = [DateTime]::UtcNow
 $script:coverUrl = ''
 $script:lastMessageAt = [DateTime]::MinValue
 
+# Smooth opacity transitions: 300 ms in, 450 ms out.
+# FillBehavior Stop returns to the base opacity (assigned before each animation).
+function Set-ToastOpacitySmooth {
+    param(
+        [double]$From,
+        [double]$To,
+        [int]$DurationMs
+    )
+    $property = [System.Windows.Window]::OpacityProperty
+    $win.BeginAnimation($property, $null)
+    $win.Opacity = $To
+    $animation = New-Object System.Windows.Media.Animation.DoubleAnimation
+    $animation.From = $From
+    $animation.To = $To
+    $animation.Duration = [System.Windows.Duration]::new([TimeSpan]::FromMilliseconds($DurationMs))
+    $animation.FillBehavior = [System.Windows.Media.Animation.FillBehavior]::Stop
+    $animation.EasingFunction = New-Object System.Windows.Media.Animation.SineEase
+    $win.BeginAnimation($property, $animation)
+}
+
 $script:hideTimer = New-Object System.Windows.Threading.DispatcherTimer
-$script:hideTimer.Interval = [TimeSpan]::FromSeconds(5)
+$script:hideTimer.Interval = [TimeSpan]::FromSeconds(7)
 $script:hideTimer.Add_Tick({
     $script:hideTimer.Stop()
-    $win.Opacity = 0
+    $currentOpacity = [double]$win.Opacity
+    if ($currentOpacity -gt 0.01) {
+        Set-ToastOpacitySmooth -From $currentOpacity -To 0 -DurationMs 450
+    }
     $win.IsHitTestVisible = $false
 })
 $script:showToast = {
     if (-not $script:hasTrack -or ([DateTime]::UtcNow - $script:lastMessageAt).TotalSeconds -gt 20) { return }
     $script:hideTimer.Stop()
-    $win.Opacity = 1
+    $currentOpacity = [double]$win.Opacity
     $win.IsHitTestVisible = $false
     $win.Topmost = $true
+    if ($currentOpacity -lt 0.98) {
+        Set-ToastOpacitySmooth -From $currentOpacity -To 1 -DurationMs 300
+    }
     $script:hideTimer.Start()
 }
 
