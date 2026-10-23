@@ -136,7 +136,7 @@ public static class NptHotkey {
         AllowsTransparency="True" Background="Transparent" ShowInTaskbar="False"
         ShowActivated="False" Topmost="True" Opacity="0" WindowStartupLocation="Manual">
   <Border Background="#171A1F" CornerRadius="16" BorderThickness="1"
-          BorderBrush="#5D5B57" Padding="12">
+          BorderBrush="#5D5B57" Padding="12" Cursor="SizeAll">
     <Grid>
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="130"/>
