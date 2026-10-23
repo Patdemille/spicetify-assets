@@ -1,5 +1,8 @@
 # Installer Now Playing Toast sur un second PC Windows (Laptop)
 
+> **Mise à jour du 23/10/2026 :** cette page décrit l'installation initiale de **V0.5**. Si Now Playing Toast V0.5 fonctionne déjà sur le laptop, **ne pas refaire cette installation** : suivre la [mise à jour ciblée vers V0.6 (bouton Suivant)](v0.6/README.md#mettre-à-jour-une-installation-existante-v05-sur-laptop). La V0.6 est validée sur Main, pas encore sur Laptop.
+
+
 Guide reproductible utilisant les fichiers **deja publies et testes sur Main** :
 - Compagnon WPF **v0.5** (deplacable et position memorisee)
 - Extension Spicetify **v0.4.2** (titre, artistes, album, annee Spotify, duree et pochette)
