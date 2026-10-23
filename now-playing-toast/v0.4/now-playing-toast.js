@@ -35,7 +35,10 @@
     let release = text(m.release_date || m.album_release_date || m.album_date || m.year);
     let year = /^\d{4}/.test(release) ? release.slice(0, 4) : "";
     const albumUri = text(m.album_uri || item.album?.uri);
-    if (!year && albumUri && albumCache.has(albumUri)) year = albumCache.get(albumUri);
+    if (!year && albumUri && albumCache.has(albumUri)) {
+      const cachedYear = albumCache.get(albumUri);
+      if (typeof cachedYear === "string") year = cachedYear;
+    }
     const duration = numberOrZero(player.getDuration?.() ?? data.duration ?? m.duration);
     const progress = numberOrZero(player.getProgress?.() ?? data.position ?? 0);
     return {
