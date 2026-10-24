@@ -10,6 +10,14 @@ Créer **notre propre chat danseur** et un moteur d'animation indépendant de Ca
 
 À terme, le moteur pourra être **utilisé en option** pour animer Bender et BMO, mais **Futurama/Bender**, **Adventure Time/BMO** et **Cat-Jam Mirror** restent des projets installables séparément. Aucun de ces trois projets n'est une dépendance requise.
 
+## Suivi des jalons dans GitHub Issues
+
+- **[J01 — Chat original (en cours)](https://github.com/Patdemille/spicetify-assets/issues/1)** : jalon lancé le 24/10/2026.
+- [J01.1 — Valider le design](https://github.com/Patdemille/spicetify-assets/issues/6)
+- [J01.2 — Réaliser la boucle](https://github.com/Patdemille/spicetify-assets/issues/7)
+- [J01.3 — Tester les exports](https://github.com/Patdemille/spicetify-assets/issues/8)
+- Jalons futurs : [J02](https://github.com/Patdemille/spicetify-assets/issues/2), [J03](https://github.com/Patdemille/spicetify-assets/issues/3), [J04](https://github.com/Patdemille/spicetify-assets/issues/4), [J05](https://github.com/Patdemille/spicetify-assets/issues/5).
+
 ## Documentation
 
 - [Feuille de route / états de validation](ROADMAP.md)
