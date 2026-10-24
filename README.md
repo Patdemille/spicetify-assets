@@ -10,6 +10,7 @@ Personnalisations **Spotify + Spicetify** conservées sur GitHub pour pouvoir re
 
 | Module | Emplacement | Statut / installation |
 | --- | --- | --- |
+| **Rhythm Companion — nouveau projet** | [rhythm-companion/](rhythm-companion/) | **J01 lancé le 24/10/2026** : création d'un chat original et préparation d'un moteur d'animation indépendant. Aucun plugin ni asset final livré à ce stade. [Roadmap](rhythm-companion/ROADMAP.md) · [Issue J01](https://github.com/Patdemille/spicetify-assets/issues/1). |
 | **Sidebar Free Resize** | [sidebar-free-resize/](sidebar-free-resize/) | **v0.2 validée sur Main (24/10/2026)** : élargit à la demande le panneau droit au-delà de 420 px. Autonome, démarre avec Spotify, sans processus PowerShell permanent. [Instructions](sidebar-free-resize/README.md). **Laptop à tester.** |
 | **Now Playing Toast** | [now-playing-toast/v0.7/](now-playing-toast/v0.7/) | v0.7 testée sur Main : popup Windows avec commandes Suivant / Titres likés. **Contrairement aux extensions Spicetify seules, utilise un compagnon PowerShell/WPF Windows**, voir sa documentation spécifique. Laptop à harmoniser. |
 | **Futurama — Bender** | [characters/futurama/](characters/futurama/) | Personnage Bender à gauche de la progression. **Installation indépendante** ; peut être utilisé seul ou avec BMO. [Instructions](characters/futurama/README.md). Extraction du pack ancien, test isolé restant à faire. |
@@ -19,6 +20,8 @@ Personnalisations **Spotify + Spicetify** conservées sur GitHub pour pouvoir re
 | **Historique Sidebar Free Resize** | [experiments/sidebar-free-resize/](experiments/sidebar-free-resize/) | v0.1 et v0.2 conservées pour comparaison et retour arrière. |
 
 **À la carte :** installer uniquement **Futurama**, uniquement **Adventure Time**, les deux, **Cat-Jam Mirror**, ou toute combinaison. Aucun personnage n'est imposé par l'installation du miroir. Le miroir exige toutefois **Cat Jam Synced** pour fournir le chat d'origine.
+
+**Rhythm Companion est en phase de conception** : aucune procédure d'installation ni plugin exécutable n'est encore proposé. Il n'affecte pas les autres modules.
 
 ## Déployer sur une autre machine
 
