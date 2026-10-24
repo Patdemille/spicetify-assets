@@ -4,11 +4,13 @@
 
 | Phase | Cible | Livrable mesurable | État |
 | --- | --- | --- | --- |
-| **J01 — Chat original** | V0.1 | Identité visuelle, poses sources, boucle animée contrôlable et test de lisibilité à 50–80 px | **EN COURS — conception initiale** |
-| J02 — Affichage | V0.2 | Extension Spicetify sans Cat Jam Synced : affiche 1 chat, position et taille, duo miroir optionnel, réglages persistants | À faire |
-| J03 — Rythme | V0.3 | Modes libre / tempo connu / synchronisation avancée seulement si signal de beat disponible ; pause/reprise fiables | À faire |
-| J04 — Interface | V0.4 | Paramètres dans Spotify : personnage, côtés, taille, décalage, mode, vitesse ; aucune modification JS pour les réglages usuels | À faire |
-| J05 — Publication | V1.0 candidate | Tests Main puis Laptop, installation/desinstallation, doc, attributions, droits, diffusion GitHub, étude Marketplace | À faire |
+| **[J01 — Chat original](https://github.com/Patdemille/spicetify-assets/issues/1)** | V0.1 | Identité visuelle, poses sources, boucle animée contrôlable et test de lisibilité à 50–80 px | **EN COURS — conception initiale** |
+| [J02 — Affichage](https://github.com/Patdemille/spicetify-assets/issues/2) | V0.2 | Extension Spicetify sans Cat Jam Synced : affiche 1 chat, position et taille, duo miroir optionnel, réglages persistants | À faire |
+| [J03 — Rythme](https://github.com/Patdemille/spicetify-assets/issues/3) | V0.3 | Modes libre / tempo connu / synchronisation avancée seulement si signal de beat disponible ; pause/reprise fiables | À faire |
+| [J04 — Interface](https://github.com/Patdemille/spicetify-assets/issues/4) | V0.4 | Paramètres dans Spotify : personnage, côtés, taille, décalage, mode, vitesse ; aucune modification JS pour les réglages usuels | À faire |
+| [J05 — Publication](https://github.com/Patdemille/spicetify-assets/issues/5) | V1.0 candidate | Tests Main puis Laptop, installation/desinstallation, doc, attributions, droits, diffusion GitHub, étude Marketplace | À faire |
+
+**Suivi détaillé J01 :** [#6 Design](https://github.com/Patdemille/spicetify-assets/issues/6) · [#7 Animation](https://github.com/Patdemille/spicetify-assets/issues/7) · [#8 Tests](https://github.com/Patdemille/spicetify-assets/issues/8).
 
 ## Principaux risques / dépendances
 
