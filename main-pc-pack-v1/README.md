@@ -1,4 +1,12 @@
-# Spicetify Main PC — reprise du setup Laptop
+# Spicetify Main PC — reprise du setup Laptop (archive)
+
+> **ARCHIVE — ancien pack groupé, non recommandé pour les nouvelles installations.**
+> Ce pack historique réunissait Bender + BMO + Cat-Jam Mirror pour reproduire une configuration personnelle. **Les projets sont désormais indépendants** :
+> - [Futurama / Bender](../characters/futurama/README.md)
+> - [Adventure Time / BMO](../characters/adventure-time/README.md)
+> - [Cat-Jam Mirror](../cat-jam-mirror/README.md) (requiert Cat Jam Synced)
+>
+> On peut installer **un seul personnage, les deux, le miroir seul (avec son extension source)**, ou n'importe quelle combinaison. Les anciens scripts et réglages sont conservés ici **pour traçabilité, pas comme méthode de déploiement universelle**. Pour le Laptop, privilégier les nouveaux dossiers et tester un module à la fois.
 
 Pack de migration **minimal** pour retrouver Bender à gauche, BMO à droite, et deux Cat-Jam synchronisés.
 
