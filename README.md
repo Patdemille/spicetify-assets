@@ -17,10 +17,10 @@ Personnalisations **Spotify + Spicetify** conservées sur GitHub pour pouvoir re
 
 ## Déployer sur une autre machine
 
-1. **Faire une sauvegarde** de \`%APPDATA%\spicetify\` et identifier les modules déjà actifs.
+1. **Faire une sauvegarde** de `%APPDATA%\spicetify` et identifier les modules déjà actifs.
 2. Vérifier la **version de Spotify**, la compatibilité Spicetify et les dépendances. Ne jamais mettre à jour une version modifiée de Spotify uniquement pour un module.
 3. Télécharger le dépôt (**Code → Download ZIP**) ou récupérer le fichier de l'extension voulue.
-4. Suivre **le README propre au module**. Pour Sidebar Free Resize, le script \`sidebar-free-resize/install.ps1\` fonctionne **une seule fois**, depuis le ZIP local, puis l'extension tourne uniquement dans Spotify.
+4. Suivre **le README propre au module**. Pour Sidebar Free Resize, le script `sidebar-free-resize/install.ps1` fonctionne **une seule fois**, depuis le ZIP local, puis l'extension tourne uniquement dans Spotify.
 5. Tester chaque modification séparément. Ne pas activer simultanément un CSS de largeur fixe et Sidebar Free Resize.
 
 ## Machines et validation
@@ -42,4 +42,4 @@ Environnement Main utilisé pour la validation Sidebar Free Resize : **Windows 1
 
 ## Périmètre
 
-Les fichiers Spicetify \`.js\` s'exécutent **dans Spotify** ; ils ne nécessitent pas de programme résident lancé avec Windows. Cette remarque **ne s'applique pas** au compagnon Windows de Now Playing Toast. Ce dépôt n'intègre ni binaire Spotify/SpotX, ni identifiants, ni configuration sensible.
+Les fichiers Spicetify `.js` s'exécutent **dans Spotify** ; ils ne nécessitent pas de programme résident lancé avec Windows. Cette remarque **ne s'applique pas** au compagnon Windows de Now Playing Toast. Ce dépôt n'intègre ni binaire Spotify/SpotX, ni identifiants, ni configuration sensible.
