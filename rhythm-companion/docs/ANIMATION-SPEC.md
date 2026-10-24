@@ -11,16 +11,16 @@
 
 | Position | Temps à 120 BPM | Pose / accent |
 | --- | ---: | --- |
-| 0 % | 0 ms | Tête haute, pattes au repos, queue vers l'extérieur |
-| 12,5 % | 125 ms | Préparation du premier accent, tête descend |
-| 25 % | 250 ms | Retombée / mouvement principal sur premier temps |
-| 37,5 % | 375 ms | Rebond, oreilles/queue en mouvement |
-| 50 % | 500 ms | Tête relevée, patte droite avance pour second temps |
-| 62,5 % | 625 ms | Accent patte avant, corps stable |
+| 0 % | 0 ms | **Temps 1 :** tête qui marque le battement, patte gauche en bas |
+| 12,5 % | 125 ms | Rebond après l'accent, tête commence à remonter |
+| 25 % | 250 ms | Tête en haut, patte gauche relâchée |
+| 37,5 % | 375 ms | Anticipation du second accent, patte droite levée |
+| 50 % | 500 ms | **Temps 2 :** patte droite frappe et tête hoche |
+| 62,5 % | 625 ms | Rebond après le second accent, corps reste stable |
 | 75 % | 750 ms | Retour progressif, queue sur contretemps |
-| 87,5 % | 875 ms | Anticipation du retour à l'état initial |
+| 87,5 % | 875 ms | Anticipation du prochain temps 1, boucle vers 0 ms |
 
-**Note importante :** la chronologie graphique ci-dessus est une *ébauche*, pas une carte de beats exacte. Le temps 0 et le temps 500 ms sont deux battements de référence ; la pose et les accents doivent être recadrés sur ces instants lors du storyboard final pour que la notion « bat la mesure » ait un sens.
+**Note importante :** 0 ms et 500 ms sont les deux accents de référence ; les autres poses servent à préparer et relâcher le mouvement. Le storyboard reste une **proposition** à valider une fois dessinée, et non une détection de beats Spotify.
 
 ## Supports source et exports
 
